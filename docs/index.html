@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>@three-ws/oracle-model: The three.ws Oracle conviction model, running locally</title>
+<meta name="description" content="The three.ws Oracle conviction model, running locally. Download the real bucket weights once, then score any pump.fun launch offline with no API key: probability it runs, probability it rugs, and the probability it runs and hands it straight back.">
+<link rel="canonical" href="https://nirholas.github.io/oracle-model/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="three.ws">
+<meta property="og:title" content="@three-ws/oracle-model">
+<meta property="og:description" content="The three.ws Oracle conviction model, running locally. Download the real bucket weights once, then score any pump.fun launch offline with no API key: probability it runs, probability it rugs, and the probability it runs and hands it straight back.">
+<meta property="og:url" content="https://nirholas.github.io/oracle-model/">
+<meta property="og:image" content="https://nirholas.github.io/oracle-model/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@three-ws/oracle-model">
+<meta name="twitter:description" content="The three.ws Oracle conviction model, running locally. Download the real bucket weights once, then score any pump.fun launch offline with no API key: probability it runs, probability it rugs, and the probability it runs and hands it straight back.">
+<meta name="twitter:image" content="https://nirholas.github.io/oracle-model/og.png">
+<meta name="keywords" content="solana, pump.fun, memecoin, rug-detection, oracle, prediction, logistic-regression, explainable-ai, offline-inference, three.ws, ai-agents">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="icon" href="https://three.ws/three-ws-mcp-icon.svg" type="image/svg+xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"@three-ws/oracle-model","description":"The three.ws Oracle conviction model, running locally. Download the real bucket weights once, then score any pump.fun launch offline with no API key: probability it runs, probability it rugs, and the probability it runs and hands it straight back.","codeRepository":"https://github.com/nirholas/oracle-model","programmingLanguage":"JavaScript","license":"https://spdx.org/licenses/Apache-2.0.html","version":"0.1.0","url":"https://nirholas.github.io/oracle-model/","author":{"@type":"Organization","name":"three.ws","url":"https://three.ws"},"keywords":"solana, pump.fun, memecoin, rug-detection, oracle, prediction, logistic-regression, explainable-ai, offline-inference, three.ws, ai-agents"}</script>
+<style>:root{--bg:#fff;--fg:#111418;--mut:#586069;--line:#e3e6ea;--acc:#2563eb;--code:#f4f6f8;--card:#fafbfc}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0d10;--fg:#e8eaed;--mut:#9aa3ad;--line:#232830;--acc:#6ea0ff;--code:#14181d;--card:#10141a}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;text-decoration:none;color:var(--fg)}
+.bar nav{margin-left:auto;display:flex;gap:16px;font-size:14px}
+.bar nav a{color:var(--mut);text-decoration:none;transition:color .15s}.bar nav a:hover{color:var(--fg)}
+.hero{max-width:1100px;margin:0 auto;padding:48px 16px 24px}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
+.hero p{color:var(--mut);max-width:70ch;font-size:18px;margin:0 0 24px}
+.install{display:flex;align-items:center;gap:8px;max-width:620px;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 14px}
+.install code{flex:1;overflow-x:auto;white-space:nowrap;font:14px ui-monospace,SFMono-Regular,Menlo,monospace}
+.install button{border:0;background:var(--acc);color:#fff;border-radius:7px;padding:8px 14px;font:600 13px system-ui;cursor:pointer;transition:transform .12s,opacity .12s}
+.install button:hover{opacity:.9}.install button:active{transform:scale(.96)}
+.cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.cta a{padding:9px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;color:var(--fg);transition:border-color .15s,transform .15s}
+.cta a:hover{border-color:var(--acc);transform:translateY(-1px)}.cta a.pri{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.layout{max-width:1100px;margin:0 auto;padding:8px 16px 64px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px}
+@media(max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}.toc{display:none}}
+.toc{position:sticky;top:76px;align-self:start;font-size:14px;border-left:1px solid var(--line);padding-left:16px}
+.toc p{margin:0 0 8px;font-weight:700;color:var(--mut);text-transform:uppercase;font-size:12px;letter-spacing:.06em}
+.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:6px 0}.toc a{color:var(--mut);text-decoration:none}.toc a:hover{color:var(--fg)}
+main{min-width:0;overflow-wrap:anywhere}main pre code{overflow-wrap:normal}main img{max-width:100%;height:auto}
+main h2{margin-top:2.2em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+.anchor{margin-left:-1.1em;padding-right:.4em;text-decoration:none;opacity:0;color:var(--mut)}h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:1}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:14px;line-height:1.5}
+code{font:0.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.15em .35em;border-radius:5px}pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow-x:auto;max-width:100%}th,td{border:1px solid var(--line);padding:8px 12px;text-align:left}th{background:var(--card)}
+blockquote{margin:1em 0;padding:.2em 1em;border-left:4px solid var(--line);color:var(--mut)}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+.foot-in{max-width:1100px;margin:0 auto;padding:24px 16px;display:flex;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+<a class="brand" href="https://nirholas.github.io/oracle-model/">@three-ws/oracle-model</a>
+<nav aria-label="Project links"><a href="https://github.com/nirholas/oracle-model">GitHub</a><a href="https://www.npmjs.com/package/@three-ws/oracle-model">npm</a><a href="llms.txt">llms.txt</a><a href="https://three.ws">three.ws</a></nav>
+</div></header>
+<section class="hero">
+<h1>@three-ws/oracle-model</h1>
+<p>The three.ws Oracle conviction model, running locally. Download the real bucket weights once, then score any pump.fun launch offline with no API key: probability it runs, probability it rugs, and the probability it runs and hands it straight back.</p>
+<div class="install" role="group" aria-label="Install command"><code>npm install @three-ws/oracle-model</code><button type="button" data-copy="npm install @three-ws/oracle-model">Copy</button></div>
+<div class="cta"><a class="pri" href="https://github.com/nirholas/oracle-model">View on GitHub</a><a href="https://github.com/nirholas/oracle-model/stargazers">Star the repo</a></div>
+</section>
+<div class="layout">
+<main id="content"><h1>@three-ws/oracle-model</h1>
+<p><strong>The three.ws Oracle, running on your machine, with the real weights.</strong></p>
+<p>The Oracle watches every pump.fun launch for its first ninety seconds and scores
+it. This package is that scorer. Not a client for a scoring API: the actual
+model, downloaded once and evaluated locally.</p>
+<pre><code class="language-bash">npm install @three-ws/oracle-model
+</code></pre>
+<pre><code class="language-js">import { OracleModel } from &#39;@three-ws/oracle-model&#39;;
+
+const oracle = await OracleModel.fetch();      // one request, ~32KB
+
+const verdict = oracle.score({
+  organic_score: 0.82,
+  unique_buyers: 41,
+  buy_volume_sol: 26,
+  snipe_ratio: 0.12,
+  smart_money_count: 2,
+  dev_sold: false,
+  creator_launches: 3,
+  creator_wins: 1,
+});
+
+verdict.score          // 90
+verdict.tier           // &#39;prime&#39;
+verdict.upside         // 99  chance it runs
+verdict.rugRisk        //  1  chance a first-sight holder ends down 50%+
+verdict.giveBackRisk   // 41  chance it runs and hands it straight back
+</code></pre>
+<p>After <code>fetch()</code> there is no network. No API key, no rate limit, no per-call
+billing, no telemetry. Score a million launches in a loop if you want.</p>
+<h2 id="why-publish-the-weights"><a class="anchor" href="#why-publish-the-weights" aria-label="Link to this section">#</a>Why publish the weights</h2>
+<p>Most prediction products publish a number and ask to be believed. The model here
+is a lookup table of bucket weights, so publishing it costs nothing and changes
+what kind of claim we are making: every score three.ws has ever shown can be
+reproduced offline, by anyone, forever.</p>
+<p>That cuts both ways on purpose. <code>verify()</code> lets you re-measure the model against
+outcomes <strong>you</strong> collected. If our published numbers do not survive contact with
+an independent sample, you will find out from us.</p>
+<h2 id="what-the-score-means"><a class="anchor" href="#what-the-score-means" aria-label="Link to this section">#</a>What the score means</h2>
+<p>The score line is <strong>not a percentage</strong>. A score of 86 claims a 45% chance, not
+an 86% one.</p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Score</th>
+<th>Claims</th>
+<th>Held out (n=74,211)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Prime</td>
+<td>86+</td>
+<td>P(win) &gt;= 45%</td>
+<td>46.4% observed, n=304</td>
+</tr>
+<tr>
+<td>Strong</td>
+<td>72+</td>
+<td>P(win) &gt;= 25%</td>
+<td>39.3% observed, n=858</td>
+</tr>
+<tr>
+<td>Lean</td>
+<td>56+</td>
+<td>P(win) &gt;= 12%</td>
+<td>23.3% observed, n=1,415</td>
+</tr>
+<tr>
+<td>Watch</td>
+<td>34+</td>
+<td>P(win) &gt;= 5%</td>
+<td>10.4% observed, n=2,790</td>
+</tr>
+<tr>
+<td>Avoid</td>
+<td>0+</td>
+<td>below that</td>
+<td>1.8% observed, n=68,844</td>
+</tr>
+</tbody></table>
+<p>Use <code>probabilityFromScore()</code> and <code>scoreFromProbability()</code> to convert. The
+<code>performance()</code> method returns the live table, so the numbers above can never go
+stale relative to the model you actually loaded.</p>
+<h3 id="three-questions-not-one"><a class="anchor" href="#three-questions-not-one" aria-label="Link to this section">#</a>Three questions, not one</h3>
+<p>The model has three heads, fitted together on one design matrix:</p>
+<table>
+<thead>
+<tr>
+<th>Head</th>
+<th>Question</th>
+<th>Base rate</th>
+<th>Held-out AUC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>win</code></td>
+<td>Did it run <strong>and</strong> is a first-sight holder still up?</td>
+<td>2.94%</td>
+<td>0.840</td>
+</tr>
+<tr>
+<td><code>rug</code></td>
+<td>Is a first-sight holder down more than half?</td>
+<td>11.36%</td>
+<td>0.918</td>
+</tr>
+<tr>
+<td><code>moon</code></td>
+<td>Did it run at all (graduated, or peaked 3x+)?</td>
+<td>9.51%</td>
+<td>0.892</td>
+</tr>
+</tbody></table>
+<p>The published score anchors on <code>win</code>. That is deliberate, and it is the whole
+reason this version exists: ranking on <code>moon</code> alone means a coin that spikes 3x
+and goes to zero counts as a hit, which is how a prediction engine ends up
+confidently recommending a chart that is a cliff.</p>
+<p><strong><code>giveBackRisk</code> is the number to watch.</strong> It is <code>1 - P(win) / P(moon)</code>: given
+this coin runs, how often does one like it hand the run straight back? A launch
+with 80% upside and 90% give-back is not an opportunity, it is a trap, and no
+single-headed score can tell you the difference.</p>
+<h2 id="every-score-shows-its-work"><a class="anchor" href="#every-score-shows-its-work" aria-label="Link to this section">#</a>Every score shows its work</h2>
+<pre><code class="language-js">const { math } = oracle.explain(signals);
+
+math.formula          // &#39;p = 1 / (1 + exp(-(intercept + sum(term log_odds))))&#39;
+math.intercept        // -3.8771
+math.terms            // one row per bucket, with its sample count
+math.total_log_odds   // add the column up; you will land here
+math.probability      // sigmoid of that
+</code></pre>
+<p>There is no hidden layer and nothing to trust. Every term is a bucket the model
+was fitted on, published with the number of labeled launches behind it and what
+actually happened to them:</p>
+<pre><code class="language-js">oracle.score(signals).why[0];
+// {
+//   feature: &#39;smart_money_count&#39;, label: &#39;proven wallets in the book&#39;,
+//   bucket: &#39;2-4&#39;, weight: 1.4698, samples: 351,
+//   observed: { win: 0.5499, rug: 0, moon: 0.9886 }
+// }
+</code></pre>
+<p>351 launches had 2 or 3 proven wallets buy inside the window. 55.0% of them ran
+and held. Zero rugged. That is the claim, and the count is right beside it.</p>
+<h2 id="check-our-work"><a class="anchor" href="#check-our-work" aria-label="Link to this section">#</a>Check our work</h2>
+<pre><code class="language-js">const report = oracle.verify([
+  { signals: {/* ... */}, outcome: true  },
+  { signals: {/* ... */}, outcome: false },
+]);
+
+report.auc          // ranking quality on YOUR data
+report.brier        // calibration error
+report.reliability  // does a claim of 25% happen 25% of the time?
+</code></pre>
+<h2 id="watch-it-learn"><a class="anchor" href="#watch-it-learn" aria-label="Link to this section">#</a>Watch it learn</h2>
+<p>The model refits every six hours against fresh outcomes and only replaces the
+live one if it beats it on held-out ranking. Every version, promoted or refused,
+is public with the reason.</p>
+<pre><code class="language-js">const registry = await fetch(&#39;https://three.ws/api/oracle/model?view=registry&#39;)
+  .then((r) =&gt; r.json());
+
+const [latest, previous] = registry.versions;
+const a = new OracleModel(await load(previous.id));
+const b = new OracleModel(await load(latest.id));
+
+a.diff(b).moves.slice(0, 5);
+// [{ key: &#39;snipe_ratio/0.3-0.7&#39;, from: 0.41, to: 0.58, delta: 0.17, samples: 8102 }, ...]
+</code></pre>
+<p>That is a machine changing its mind, in public, with the evidence attached.</p>
+<h2 id="api"><a class="anchor" href="#api" aria-label="Link to this section">#</a>API</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>OracleModel.fetch(opts?)</code></td>
+<td>Download the live model. One request.</td>
+</tr>
+<tr>
+<td><code>new OracleModel(doc)</code></td>
+<td>Build from a document you already have (pin a version).</td>
+</tr>
+<tr>
+<td><code>.score(signals)</code></td>
+<td>Verdict: score, tier, three probabilities, <code>why</code>.</td>
+</tr>
+<tr>
+<td><code>.explain(signals)</code></td>
+<td>The same, with the arithmetic shown term by term.</td>
+</tr>
+<tr>
+<td><code>.performance(head?)</code></td>
+<td>Held-out AUC, Brier, precision, reliability curve.</td>
+</tr>
+<tr>
+<td><code>.verify(samples, head?)</code></td>
+<td>Re-measure the model on your own labeled data.</td>
+</tr>
+<tr>
+<td><code>.diff(other, threshold?)</code></td>
+<td>Every bucket weight that moved between two versions.</td>
+</tr>
+<tr>
+<td><code>.rank(launches, opts?)</code></td>
+<td>Sort a list of launches by score, best first.</td>
+</tr>
+<tr>
+<td><code>.probabilityFromScore(s)</code></td>
+<td>Convert a 0-100 score to the probability it claims.</td>
+</tr>
+<tr>
+<td><code>.scoreFromProbability(p)</code></td>
+<td>The inverse.</td>
+</tr>
+<tr>
+<td><code>.tierFor(score)</code></td>
+<td>Which rung a score sits on.</td>
+</tr>
+</tbody></table>
+<p>Every signal is optional. A missing one lands in the model&#39;s fitted <code>null</code>
+bucket, which carries real information (a coin nobody has sold yet is telling you
+something) rather than being silently treated as zero. <code>verdict.confidence</code>
+reports how much you actually supplied.</p>
+<h3 id="signals"><a class="anchor" href="#signals" aria-label="Link to this section">#</a>Signals</h3>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>organic_score</code></td>
+<td>0-1, demand that does not look manufactured</td>
+</tr>
+<tr>
+<td><code>bundle_score</code></td>
+<td>0-1, how bundled the opening buys were</td>
+</tr>
+<tr>
+<td><code>snipe_ratio</code></td>
+<td>0-1, share of supply taken at open</td>
+</tr>
+<tr>
+<td><code>timing_entropy</code></td>
+<td>0-1, how spread out the buys were in time</td>
+</tr>
+<tr>
+<td><code>concentration_top1</code> / <code>top5</code> / <code>top10</code></td>
+<td>0-1, holder concentration</td>
+</tr>
+<tr>
+<td><code>unique_buyers</code> / <code>unique_sellers</code></td>
+<td>wallet counts in the window</td>
+</tr>
+<tr>
+<td><code>buy_volume_sol</code> / <code>sell_volume_sol</code> / <code>net_volume_sol</code></td>
+<td>SOL flow</td>
+</tr>
+<tr>
+<td><code>trade_count</code>, <code>buy_sell_ratio</code></td>
+<td>tape shape</td>
+</tr>
+<tr>
+<td><code>largest_buy_sol</code>, <code>avg_buy_sol</code>, <code>median_buy_sol</code></td>
+<td>buy size distribution</td>
+</tr>
+<tr>
+<td><code>dev_buy_sol</code>, <code>dev_sell_sol</code>, <code>dev_sold</code></td>
+<td>what the creator did</td>
+</tr>
+<tr>
+<td><code>mc_sol_first_seen</code></td>
+<td>market cap in SOL when first observed</td>
+</tr>
+<tr>
+<td><code>smart_money_count</code></td>
+<td>proven wallets that bought in the window</td>
+</tr>
+<tr>
+<td><code>creator_launches</code>, <code>creator_wins</code></td>
+<td>creator track record (or <code>creator_record</code>)</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>narrative bucket (<code>animal</code>, <code>news</code>, <code>tech</code>, ...)</td>
+</tr>
+</tbody></table>
+<p>Two more (<code>fresh_wallet_ratio</code>, <code>bubblemap_connectivity</code>) are accepted and
+currently ignored: they are null in the training corpus, so the fitter drops them
+rather than pretend to have learned something. <code>oracle.droppedFeatures</code> names
+them. If they start arriving, the next refit picks them up with no code change,
+here or upstream.</p>
+<h2 id="a-note-on-how-the-labels-are-made"><a class="anchor" href="#a-note-on-how-the-labels-are-made" aria-label="Link to this section">#</a>A note on how the labels are made</h2>
+<p>The outcome a model is trained on matters more than the model. Ours used to ask
+whether a coin&#39;s market cap had fallen under a hardcoded $3,000.</p>
+<p>A pump.fun bonding curve with no real reserves is worth exactly
+<code>30 * 1e9 / 1073000191 = 27.958993 SOL</code>. So that test was asking whether SOL was
+above roughly $107.30. Of 206,428 coins labeled &quot;rugged&quot;, 206,419 were under
+$3,000; of 25,180 labeled survivors, the cheapest was exactly $3,000. Identical
+dead curves, sorted by a price feed.</p>
+<p>The labels now use two ratios taken from the same market-cap reading, so the SOL
+price cancels out of both:</p>
+<pre><code>retained      = last_market_cap / ath_market_cap
+hold_multiple = ath_multiple * retained
+</code></pre>
+<p><code>rug</code> is <code>hold_multiple &lt;= 0.5</code>. <code>win</code> is a run with <code>hold_multiple &gt;= 1</code>. The
+real rug rate is 11.4%, not the 91% the old rule reported, and it holds within
+two points whether a coin is checked at 60 minutes or three days old, which is
+what a property of the coin is supposed to do.</p>
+<h2 id="links"><a class="anchor" href="#links" aria-label="Link to this section">#</a>Links</h2>
+<ul>
+<li><strong>Oracle Lab</strong> (weights, reliability curves, version diffs, live scorer): <a href="https://three.ws/oracle-lab">https://three.ws/oracle-lab</a></li>
+<li><strong>Model API</strong>: <a href="https://three.ws/api/oracle/model">https://three.ws/api/oracle/model</a></li>
+<li><strong>Docs</strong>: <a href="https://three.ws/docs/oracle-model">https://three.ws/docs/oracle-model</a></li>
+<li><strong>Live feed</strong>: <a href="https://three.ws/oracle">https://three.ws/oracle</a></li>
+</ul>
+<p>Apache-2.0</p>
+</main>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#why-publish-the-weights">Why publish the weights</a></li><li><a href="#what-the-score-means">What the score means</a></li><li><a href="#every-score-shows-its-work">Every score shows its work</a></li><li><a href="#check-our-work">Check our work</a></li><li><a href="#watch-it-learn">Watch it learn</a></li><li><a href="#api">API</a></li><li><a href="#a-note-on-how-the-labels-are-made">A note on how the labels are made</a></li><li><a href="#links">Links</a></li></ul></nav>
+</div>
+<footer><div class="foot-in"><span>Apache-2.0 licensed</span><a href="https://github.com/nirholas/oracle-model/issues">Issues</a><a href="https://github.com/nirholas/oracle-model/blob/main/CONTRIBUTING.md">Contributing</a><a href="https://github.com/nirholas/oracle-model/security/policy">Security</a><a href="https://three.ws">Part of three.ws</a></div></footer>
+<script>document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+var t=b.getAttribute('data-copy');var done=function(){var o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}a.remove()}})});</script>
+</body>
+</html>

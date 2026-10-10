@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+title: "@three-ws/oracle-model"
+abstract: "The three.ws Oracle conviction model, running locally. Download the real bucket weights once, then score any pump.fun launch offline with no API key: probability it runs, probability it rugs, and the probability it runs and hands it straight back."
+version: 0.1.0
+license: Apache-2.0
+repository-code: "https://github.com/nirholas/oracle-model"
+url: "https://three.ws"
+authors:
+  - name: three.ws
+    website: "https://three.ws"

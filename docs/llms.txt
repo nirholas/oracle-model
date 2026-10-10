@@ -1,0 +1,19 @@
+# @three-ws/oracle-model
+
+> The three.ws Oracle conviction model, running locally. Download the real bucket weights once, then score any pump.fun launch offline with no API key: probability it runs, probability it rugs, and the probability it runs and hands it straight back.
+
+@three-ws/oracle-model is a JavaScript library from three.ws. Install: `npm install @three-ws/oracle-model`.
+
+## Docs
+
+- [README](https://github.com/nirholas/oracle-model/blob/main/README.md): install, configuration, full reference
+- [Documentation site](https://nirholas.github.io/oracle-model/): the README as a web page
+- [Full text for LLMs](https://nirholas.github.io/oracle-model/llms-full.txt): README inlined
+- [AGENTS.md](https://github.com/nirholas/oracle-model/blob/main/AGENTS.md): guidance for coding agents
+
+## Project
+
+- [Source](https://github.com/nirholas/oracle-model)
+- [npm](https://www.npmjs.com/package/@three-ws/oracle-model)
+- [three.ws](https://three.ws): the platform this is part of
+- [Issues](https://github.com/nirholas/oracle-model/issues)
